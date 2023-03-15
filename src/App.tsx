@@ -1,13 +1,13 @@
 import { useState } from 'react'
+import { TableData } from './components/datatable'
 import { Navbar } from './components/navbar'
+import { TableConfig } from './components/table-config'
 function App() {
     return (
-        <div>
+        <div style={{ marginTop: 60 }}>
             <Navbar />
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-            nobis tempora voluptatem amet officia est explicabo mollitia
-            veritatis voluptates! Illo aliquid nam molestias, fuga harum
-            assumenda dolorem doloremque ipsum vitae!
+            <TableConfig />
+            <TableData />
         </div>
     )
 }
