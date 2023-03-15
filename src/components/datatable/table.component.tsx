@@ -2,6 +2,8 @@ import React from 'react'
 import { Space, Table, Tag, Button } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { TableComponent } from './table.style'
+import { useQuery } from 'react-query'
+import { getProducts } from '../../service/queries/api.get.products'
 
 interface DataType {
     key: string
@@ -14,9 +16,9 @@ interface DataType {
 const columns: ColumnsType<DataType> = [
     {
         title: 'Image',
-        dataIndex: 'image',
-        key: 'image',
-        render: (src) => <img src={src} />,
+        dataIndex: 'imageSrc',
+        key: 'imageSrc',
+        render: (src) => <img src={src} alt="image" />,
     },
     {
         title: 'Name',
@@ -80,8 +82,12 @@ const data: DataType[] = [
     },
 ]
 
-export const TableData = () => (
-    <TableComponent>
-        <Table columns={columns} dataSource={data} />
-    </TableComponent>
-)
+export const TableData = () => {
+    const { data: products } = useQuery('products', getProducts)
+    console.log(products)
+    return (
+        <TableComponent>
+            <Table columns={columns} dataSource={products?.data} />
+        </TableComponent>
+    )
+}

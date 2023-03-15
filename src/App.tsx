@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { TableData } from './components/datatable'
 import { Navbar } from './components/navbar'
 import { TableConfig } from './components/table-config'
