@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Space, Table, Tag, Button } from 'antd'
-import type { ColumnsType } from 'antd/es/table'
+import { Space, Table, Tag, Button, Image } from 'antd'
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
 import { TableComponent } from './table.style'
 import { useQuery } from 'react-query'
 import { getProducts } from '../../service/queries/api.get.products'
 import { ModalAddProduct } from '../table-config/add.modal'
 import { useFilter } from '../../service/pagin.store/pagin'
-
+import type { FilterValue } from 'antd/es/table/interface'
 interface DataType {
     key: string
     name: string
@@ -14,11 +14,10 @@ interface DataType {
     address: string
     tags: string[]
 }
-
 const data: DataType[] = []
 
 export const TableData = () => {
-    const { filter } = useFilter()
+    const { filter, setFilter } = useFilter()
     const { data: products } = useQuery(
         ['products', filter],
         () => getProducts(filter),
@@ -26,7 +25,7 @@ export const TableData = () => {
             enabled: !!filter,
         }
     )
-    console.log(filter)
+    console.log(products)
     const [addModal, setAddModal] = useState<boolean>(false)
     const [idProduct, setIdProduct] = useState<number>(0)
     const columns: ColumnsType<DataType> = [
@@ -34,7 +33,7 @@ export const TableData = () => {
             title: 'Image',
             dataIndex: 'imageSrc',
             key: 'imageSrc',
-            render: (src) => <img src={src} alt="image" />,
+            render: (src) => <Image src={src} alt="image" />,
         },
         {
             title: 'Name',
@@ -83,7 +82,17 @@ export const TableData = () => {
     return (
         <>
             <TableComponent>
-                <Table columns={columns} dataSource={products?.data} />
+                <Table
+                    rowKey="id"
+                    columns={columns}
+                    dataSource={products?.data}
+                    pagination={{
+                        current: filter?._page,
+                        pageSize: filter?._limit,
+                        total: products?.headers['x-total-count'],
+                        onChange: (e) => setFilter({ ...filter, _page: e }),
+                    }}
+                />
             </TableComponent>
             <ModalAddProduct
                 edit={true}

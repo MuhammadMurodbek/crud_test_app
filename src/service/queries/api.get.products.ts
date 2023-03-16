@@ -1,9 +1,11 @@
 import axios from 'axios'
 
-export const getProducts = ({ category, name_like }: any) => {
+export const getProducts = ({ _limit, _page, category, name_like }: any) => {
     let params = {
         category: null,
         name_like: null,
+        _page,
+        _limit,
     }
     return axios.get('http://localhost:2288/products', { params: params })
 }
