@@ -9,12 +9,12 @@
       "imageSrc": "https://cdn.shopify.com/s/files/1/0718/4754/3105/products/e7a2b189514d134630552681e4c8bc07.jpg?v=1677779725"
     },
     {
+      "imageSrc": "https://cdn.shopify.com/s/files/1/0718/4754/3105/products/7883dc186e15bf29dad696e1e989e914.jpg?v=1677779862",
       "id": 2,
       "name": "ADIDAS | KID'S STAN SMITH",
       "description": "The Stan Smith owned the tennis court in the '70s. Today it runs the streets with the same clean, classic style. These kids' shoes preserve the iconic look of the original, made in leather with punched 3-Stripes, heel and tongue logos and lightweight step-in cushioning.",
       "price": 15.99,
-      "category": "shoes",
-      "imageSrc": "https://cdn.shopify.com/s/files/1/0718/4754/3105/products/7883dc186e15bf29dad696e1e989e914.jpg?v=1677779862"
+      "category": "shoesss"
     },
     {
       "id": 3,
@@ -39,6 +39,14 @@
       "price": "fff",
       "category": "fffff",
       "id": 5
+    },
+    {
+      "imageSrc": "",
+      "name": "",
+      "description": "",
+      "price": "",
+      "category": "",
+      "id": 6
     }
   ]
 }
