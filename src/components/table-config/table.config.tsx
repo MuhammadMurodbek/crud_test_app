@@ -1,28 +1,25 @@
 import { useState } from 'react'
+import { ModalAddProduct } from './add.modal'
+import { ModalFilterProduct } from './filter.modal'
 import { TableConfigComponent, TableConfigItems } from './table.config.style'
+import { Button } from 'antd'
 
 export const TableConfig = () => {
     const [addModal, setAddModal] = useState(false)
-
-    const showModal = () => {
-        setAddModal(true)
-    }
-
-    const handleOk = () => {
-        setAddModal(false)
-    }
-
-    const handleCancel = () => {
-        setAddModal(false)
-    }
+    const [filterModal, setFilterModal] = useState(false)
     return (
         <TableConfigComponent>
             <div>Products</div>
             <TableConfigItems>
-                <div>refresh</div>
-                <div>add</div>
-                <div>filter</div>
+                <Button>refresh</Button>
+                <Button onClick={() => setAddModal(true)}>Add</Button>
+                <Button onClick={() => setFilterModal(true)}>filter</Button>
             </TableConfigItems>
+            <ModalAddProduct addModal={addModal} setAddModal={setAddModal} />
+            <ModalFilterProduct
+                filterModal={filterModal}
+                setFilterModal={setFilterModal}
+            />
         </TableConfigComponent>
     )
 }

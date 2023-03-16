@@ -1,29 +1,32 @@
 import React, { useState } from 'react'
 import { Button, Modal } from 'antd'
 
-export const ModalAddProduct: React.FC = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false)
+type TModalProps = {
+    filterModal: boolean
+    setFilterModal: React.Dispatch<React.SetStateAction<boolean>>
+}
 
+export const ModalFilterProduct: React.FC<TModalProps> = ({
+    filterModal,
+    setFilterModal,
+}) => {
     const showModal = () => {
-        setIsModalOpen(true)
+        setFilterModal(true)
     }
 
     const handleOk = () => {
-        setIsModalOpen(false)
+        setFilterModal(false)
     }
 
     const handleCancel = () => {
-        setIsModalOpen(false)
+        setFilterModal(false)
     }
 
     return (
         <>
-            <Button type="primary" onClick={showModal}>
-                Open Modal
-            </Button>
             <Modal
                 title="Basic Modal"
-                open={isModalOpen}
+                open={filterModal}
                 onOk={handleOk}
                 onCancel={handleCancel}
             >
