@@ -14,7 +14,7 @@ export const useFilter = create<Tprops>((set) => ({
     filter: {
         categories: [''],
         selectedCategory: '',
-        _limit: 4,
+        _limit: 10,
         _page: 1,
         _total: null,
         name_like: '',

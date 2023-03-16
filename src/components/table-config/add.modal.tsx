@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ImageUploader, { FileObjectType } from 'react-image-upload'
 import 'react-image-upload/dist/index.css'
-import { Modal, Input, Button, Image } from 'antd'
+import { Modal, Input, Button, Image, Switch, Select } from 'antd'
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation, useQuery } from 'react-query'
 import {
@@ -18,6 +18,7 @@ type TModalProps = {
     id?: number
     addModal: boolean
     setAddModal: React.Dispatch<React.SetStateAction<boolean>>
+    categories: any[]
 }
 
 export const ModalAddProduct: React.FC<TModalProps> = ({
@@ -25,6 +26,7 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
     id,
     addModal,
     setAddModal,
+    categories,
 }) => {
     const [imageUrl, setImageUrl] = useState<{
         image: string
@@ -87,6 +89,7 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
     const runAfterImageDelete = (img: FileObjectType): any => {
         setImageUrl({ image: '', edited: true })
     }
+    console.log(categories)
     return (
         <>
             <Modal
@@ -172,12 +175,15 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
                     />
                     <Controller
                         name="category"
-                        defaultValue=""
                         rules={{ required: true }}
                         control={control}
                         render={({ field }: any) => (
                             <>
-                                <Input {...field} placeholder="Category" />
+                                <Select
+                                    {...field}
+                                    options={categories}
+                                    placeholder="Category"
+                                />
                                 {errors?.category && (
                                     <ErrorField>
                                         category is required

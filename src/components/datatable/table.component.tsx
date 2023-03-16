@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Space, Table, Tag, Button, Image } from 'antd'
-import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
+import type { ColumnsType } from 'antd/es/table'
 import { TableComponent } from './table.style'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { getProducts } from '../../service/queries/api.get.products'
 import { ModalAddProduct } from '../table-config/add.modal'
 import { useFilter } from '../../service/pagin.store/pagin'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { deleteProduct } from '../../service/queries/api.delete.products'
 interface DataType {
     key: string
     name: string
@@ -13,17 +15,19 @@ interface DataType {
     address: string
     tags: string[]
 }
-const data: DataType[] = []
 
-export const TableData = () => {
+export const TableData = ({ data: categories }: any) => {
     const { filter, setFilter } = useFilter()
     const { data: products } = useQuery(
         ['products', filter],
         () => getProducts(filter),
         {
             enabled: !!filter,
+            refetchOnMount: false,
+            refetchOnWindowFocus: false,
         }
     )
+    const { mutateAsync } = useMutation('delete', deleteProduct)
     const [addModal, setAddModal] = useState<boolean>(false)
     const [idProduct, setIdProduct] = useState<number>(0)
     const columns: ColumnsType<DataType> = [
@@ -39,7 +43,7 @@ export const TableData = () => {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            render: (text) => <a>{text}</a>,
+            render: (text) => <Space>{text}</Space>,
         },
         {
             title: 'Description',
@@ -60,9 +64,9 @@ export const TableData = () => {
             title: 'Category',
             key: 'category',
             dataIndex: 'category',
-            render: (_, { tags }) => (
+            render: (text) => (
                 <>
-                    <Tag color="blue">oops</Tag>
+                    <Tag color="green">{text?.toUpperCase()}</Tag>
                 </>
             ),
         },
@@ -77,9 +81,11 @@ export const TableData = () => {
                             setAddModal(true)
                         }}
                     >
-                        update
+                        <EditOutlined style={{ color: '#002f96' }} />
                     </Button>
-                    <Button>remove</Button>
+                    <Button onClick={() => mutateAsync(record?.id)}>
+                        <DeleteOutlined style={{ color: '#eb2f96' }} />
+                    </Button>
                 </Space>
             ),
         },
@@ -108,6 +114,7 @@ export const TableData = () => {
             <ModalAddProduct
                 edit={true}
                 id={idProduct}
+                categories={categories}
                 addModal={addModal}
                 setAddModal={setAddModal}
             />

@@ -1,21 +1,17 @@
 import { useState } from 'react'
 import { ModalAddProduct } from './add.modal'
-import { ModalFilterProduct } from './filter.modal'
+// import { ModalFilterProduct } from './filter.modal'
 import { TableConfigComponent, TableConfigItems } from './table.config.style'
 import { Button, Select, Input } from 'antd'
 import { useFilter } from '../../service/pagin.store/pagin'
-import { useQuery } from 'react-query'
-import { getCategories } from '../../service/queries/api.get.products'
+// import { useQuery } from 'react-query'
+// import { getCategories } from '../../service/queries/api.get.products'
 
-export const TableConfig = () => {
+export const TableConfig = ({ data: categories }: any) => {
     const { Search } = Input
     const { filter, setFilter } = useFilter()
-    const { data: categories } = useQuery('getCategory', getCategories, {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-    })
     const [addModal, setAddModal] = useState(false)
-    const [filterModal, setFilterModal] = useState(false)
+    // const [filterModal, setFilterModal] = useState(false)
     const onSearch = (value: string) =>
         setFilter({ ...filter, name_like: value })
     return (
@@ -36,11 +32,15 @@ export const TableConfig = () => {
                     onSelect={(e) => setFilter({ ...filter, category: e })}
                 />
             </TableConfigItems>
-            <ModalAddProduct addModal={addModal} setAddModal={setAddModal} />
-            <ModalFilterProduct
+            <ModalAddProduct
+                addModal={addModal}
+                setAddModal={setAddModal}
+                categories={categories}
+            />
+            {/* <ModalFilterProduct
                 filterModal={filterModal}
                 setFilterModal={setFilterModal}
-            />
+            /> */}
         </TableConfigComponent>
     )
 }
