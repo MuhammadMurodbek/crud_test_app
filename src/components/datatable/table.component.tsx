@@ -5,6 +5,7 @@ import { TableComponent } from './table.style'
 import { useQuery } from 'react-query'
 import { getProducts } from '../../service/queries/api.get.products'
 import { ModalAddProduct } from '../table-config/add.modal'
+import { useFilter } from '../../service/pagin.store/pagin'
 
 interface DataType {
     key: string
@@ -17,10 +18,17 @@ interface DataType {
 const data: DataType[] = []
 
 export const TableData = () => {
-    const { data: products } = useQuery('products', getProducts)
+    const { filter } = useFilter()
+    const { data: products } = useQuery(
+        ['products', filter],
+        () => getProducts(filter),
+        {
+            enabled: !!filter,
+        }
+    )
+    console.log(filter)
     const [addModal, setAddModal] = useState<boolean>(false)
     const [idProduct, setIdProduct] = useState<number>(0)
-    console.log(products)
     const columns: ColumnsType<DataType> = [
         {
             title: 'Image',
