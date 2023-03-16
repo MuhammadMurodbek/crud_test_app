@@ -10,6 +10,8 @@ import {
 } from '../../service/queries/api.add.products'
 import { getProductsById } from '../../service/queries/api.get.products'
 import { UploadOutlined } from '@ant-design/icons'
+import { ErrorField, FlexButtons, ModalForm } from './modal.style'
+import TextArea from 'antd/es/input/TextArea'
 
 type TModalProps = {
     edit?: boolean
@@ -28,8 +30,9 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
         image: string
         edited: boolean
     }>({ image: '', edited: false })
-    const { mutateAsync } = useMutation(addProducts)
-    const { mutateAsync: updateAsync } = useMutation(putProducts)
+    const { mutateAsync, isLoading: isLoadingAdd } = useMutation(addProducts)
+    const { mutateAsync: updateAsync, isLoading: isLoadingUpdate } =
+        useMutation(putProducts)
     const { data } = useQuery(
         ['getGroupPupil', id],
         () => getProductsById(id),
@@ -55,6 +58,7 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
         formState: { errors },
     } = useForm()
     const onSubmit = async (data: any) => {
+        if (!imageUrl?.image) return alert('image not defined')
         const toBase64 = (file: any) =>
             new Promise((resolve, reject) => {
                 const reader = new FileReader()
@@ -69,16 +73,12 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
                 : imageUrl?.image,
         }
 
-        if (!imageUrl?.image) return alert('image not defined')
         if (edit) updateAsync(postData)
         else mutateAsync(postData)
     }
 
-    const handleOk = () => {
-        setAddModal(false)
-    }
-
     const handleCancel = () => {
+        reset({})
         setAddModal(false)
     }
     const getImageFileObject = (imageFile: any) => {
@@ -93,9 +93,10 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
                 title="Basic Modal"
                 open={addModal}
                 footer={null}
+                width={450}
                 onCancel={handleCancel}
             >
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <ModalForm onSubmit={handleSubmit(onSubmit)}>
                     <div
                         style={{
                             display: 'flex',
@@ -140,31 +141,82 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
                     <Controller
                         name="name"
                         defaultValue=""
+                        rules={{ required: true }}
                         control={control}
-                        render={({ field }: any) => <Input {...field} />}
-                    />
-                    <Controller
-                        name="description"
-                        defaultValue=""
-                        control={control}
-                        render={({ field }: any) => <Input {...field} />}
+                        render={({ field }: any) => (
+                            <>
+                                <Input {...field} placeholder="Name" />
+                                {errors?.name && (
+                                    <ErrorField>name is required</ErrorField>
+                                )}
+                            </>
+                        )}
                     />
                     <Controller
                         name="price"
                         defaultValue=""
+                        rules={{ required: true }}
                         control={control}
                         render={({ field }: any) => (
-                            <Input type="number" {...field} />
+                            <>
+                                <Input
+                                    type="number"
+                                    {...field}
+                                    placeholder="Price"
+                                />
+                                {errors?.price && (
+                                    <ErrorField>Price is required</ErrorField>
+                                )}
+                            </>
                         )}
                     />
                     <Controller
                         name="category"
                         defaultValue=""
+                        rules={{ required: true }}
                         control={control}
-                        render={({ field }: any) => <Input {...field} />}
+                        render={({ field }: any) => (
+                            <>
+                                <Input {...field} placeholder="Category" />
+                                {errors?.category && (
+                                    <ErrorField>
+                                        category is required
+                                    </ErrorField>
+                                )}
+                            </>
+                        )}
                     />
-                    <Button htmlType="submit">submit</Button>
-                </form>
+                    <Controller
+                        name="description"
+                        defaultValue=""
+                        rules={{ required: true }}
+                        control={control}
+                        render={({ field }: any) => (
+                            <>
+                                <TextArea
+                                    {...field}
+                                    placeholder="Description"
+                                    style={{ minHeight: 100 }}
+                                />
+                                {errors?.description && (
+                                    <ErrorField>
+                                        description is required
+                                    </ErrorField>
+                                )}
+                            </>
+                        )}
+                    />
+                    <FlexButtons>
+                        <Button onClick={handleCancel}>Cancel</Button>
+                        <Button
+                            htmlType="submit"
+                            type="primary"
+                            loading={isLoadingAdd || isLoadingUpdate}
+                        >
+                            Save
+                        </Button>
+                    </FlexButtons>
+                </ModalForm>
             </Modal>
         </>
     )

@@ -46,7 +46,7 @@ export const TableData = () => {
             dataIndex: 'description',
             key: 'description',
             render: (text) => (
-                <Space style={{ width: 'auto' }}>
+                <Space style={{ minWidth: 60 }}>
                     <div>{text.slice(0, 100) + '...'}</div>
                 </Space>
             ),
