@@ -10,7 +10,10 @@ import { getCategories } from '../../service/queries/api.get.products'
 export const TableConfig = () => {
     const { Search } = Input
     const { filter, setFilter } = useFilter()
-    const { data: categories } = useQuery('getCategory', getCategories)
+    const { data: categories } = useQuery('getCategory', getCategories, {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+    })
     const [addModal, setAddModal] = useState(false)
     const [filterModal, setFilterModal] = useState(false)
     const onSearch = (value: string) =>

@@ -9,4 +9,12 @@ export const NavbarComponent = styled.div`
     line-height: 60px;
     background: white;
     box-shadow: 0 0 13px -3px #333;
+    z-index: 99;
+`
+export const FlexWrap = styled.div`
+    width: 100%;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `

@@ -6,7 +6,6 @@ import { useQuery } from 'react-query'
 import { getProducts } from '../../service/queries/api.get.products'
 import { ModalAddProduct } from '../table-config/add.modal'
 import { useFilter } from '../../service/pagin.store/pagin'
-import type { FilterValue } from 'antd/es/table/interface'
 interface DataType {
     key: string
     name: string
@@ -25,7 +24,6 @@ export const TableData = () => {
             enabled: !!filter,
         }
     )
-    console.log(products)
     const [addModal, setAddModal] = useState<boolean>(false)
     const [idProduct, setIdProduct] = useState<number>(0)
     const columns: ColumnsType<DataType> = [
@@ -33,7 +31,9 @@ export const TableData = () => {
             title: 'Image',
             dataIndex: 'imageSrc',
             key: 'imageSrc',
-            render: (src) => <Image src={src} alt="image" />,
+            render: (src) => (
+                <Image style={{ width: 100 }} src={src} alt="image" />
+            ),
         },
         {
             title: 'Name',
@@ -45,6 +45,11 @@ export const TableData = () => {
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
+            render: (text) => (
+                <Space style={{ width: 'auto' }}>
+                    <div>{text.slice(0, 100) + '...'}</div>
+                </Space>
+            ),
         },
         {
             title: 'Price',
@@ -65,7 +70,7 @@ export const TableData = () => {
             title: 'Action',
             key: 'action',
             render: (_, record: any) => (
-                <Space size="small" style={{ width: 10 }}>
+                <Space size="small" style={{ width: 'auto' }}>
                     <Button
                         onClick={() => {
                             setIdProduct(record?.id)
@@ -90,7 +95,13 @@ export const TableData = () => {
                         current: filter?._page,
                         pageSize: filter?._limit,
                         total: products?.headers['x-total-count'],
-                        onChange: (e) => setFilter({ ...filter, _page: e }),
+                        onChange: (current: number, size: number) =>
+                            setFilter({
+                                ...filter,
+                                _page: current,
+                                _limit: size,
+                            }),
+                        showSizeChanger: true,
                     }}
                 />
             </TableComponent>
