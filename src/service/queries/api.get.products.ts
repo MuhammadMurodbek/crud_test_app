@@ -2,8 +2,8 @@ import axios from 'axios'
 
 export const getProducts = ({ _limit, _page, category, name_like }: any) => {
     let params = {
-        category: null,
-        name_like: null,
+        category: category,
+        name_like: name_like,
         _page,
         _limit,
     }

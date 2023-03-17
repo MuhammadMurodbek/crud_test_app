@@ -8,6 +8,7 @@ function App() {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
     })
+    console.log(categories)
     return (
         <div style={{ marginTop: 60 }}>
             <Navbar />
