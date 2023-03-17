@@ -2,10 +2,8 @@ import React, { useState } from 'react'
 import { Space, Table, Tag, Button, Image, Modal } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { TableComponent } from './table.style'
-import { useMutation, useQuery } from 'react-query'
-import { getProducts } from '../../service/queries/api.get.products'
+import { useMutation } from 'react-query'
 import { ModalAddProduct } from '../table-config/add.modal'
-import { useFilter } from '../../service/pagin.store/pagin'
 import {
     DeleteOutlined,
     EditOutlined,
@@ -20,31 +18,20 @@ interface DataType {
     tags: string[]
 }
 
-export const TableData = ({ data: categories }: any) => {
+export const TableData = ({
+    products,
+    refetchProducts,
+    setFilter,
+    filter,
+    categories,
+    isLoadingProduct,
+}: any) => {
     const [modal, contextHolder] = Modal.useModal()
-    const { filter, setFilter } = useFilter()
-    const { data: products } = useQuery(
-        ['products', filter],
-        () => getProducts(filter),
-        {
-            enabled: !!filter,
-            refetchOnMount: false,
-            refetchOnWindowFocus: false,
-        }
-    )
-    const { mutateAsync } = useMutation('delete', deleteProduct)
+    const { mutateAsync } = useMutation('delete', deleteProduct, {
+        onSuccess: () => refetchProducts(),
+    })
     const [addModal, setAddModal] = useState<boolean>(false)
     const [idProduct, setIdProduct] = useState<number>(0)
-    const confirm = (id: number) => {
-        modal.confirm({
-            title: 'Confirm',
-            icon: <ExclamationCircleOutlined />,
-            content: 'Bla bla ...',
-            okText: '确认',
-            cancelText: '取消',
-            // onOk: () => mutateAsync(id),
-        })
-    }
     const columns: ColumnsType<DataType> = [
         {
             title: 'Image',
@@ -137,9 +124,11 @@ export const TableData = ({ data: categories }: any) => {
                             }),
                         showSizeChanger: true,
                     }}
+                    loading={isLoadingProduct}
                 />
             </TableComponent>
             <ModalAddProduct
+                refetch={refetchProducts}
                 edit={true}
                 id={idProduct}
                 categories={categories}

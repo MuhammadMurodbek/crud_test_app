@@ -14,6 +14,7 @@ import { ErrorField, FlexButtons, ModalForm } from './modal.style'
 import TextArea from 'antd/es/input/TextArea'
 
 type TModalProps = {
+    refetch: () => void
     edit?: boolean
     id?: number
     addModal: boolean
@@ -22,6 +23,7 @@ type TModalProps = {
 }
 
 export const ModalAddProduct: React.FC<TModalProps> = ({
+    refetch,
     edit,
     id,
     addModal,
@@ -32,9 +34,19 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
         image: string
         edited: boolean
     }>({ image: '', edited: false })
-    const { mutateAsync, isLoading: isLoadingAdd } = useMutation(addProducts)
+    const { mutateAsync, isLoading: isLoadingAdd } = useMutation(addProducts, {
+        onSuccess: () => {
+            refetch()
+            handleCancel()
+        },
+    })
     const { mutateAsync: updateAsync, isLoading: isLoadingUpdate } =
-        useMutation(putProducts)
+        useMutation(putProducts, {
+            onSuccess: () => {
+                refetch()
+                handleCancel()
+            },
+        })
     const { data } = useQuery(
         ['getGroupPupil', id],
         () => getProductsById(id),

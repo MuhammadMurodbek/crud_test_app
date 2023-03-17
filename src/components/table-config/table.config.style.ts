@@ -13,3 +13,9 @@ export const TableConfigItems = styled.div`
     justify-content: space-between;
     gap: 10px;
 `
+export const TableLabel = styled.div`
+    padding: 6px 15px;
+    color: #fff;
+    border-radius: 5px;
+    background: #1677ff;
+`
