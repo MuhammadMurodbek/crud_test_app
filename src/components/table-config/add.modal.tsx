@@ -117,6 +117,7 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
 
     const handleCancel = () => {
         reset({})
+        setImageUrl({ image: '', edited: false })
         setAddModal(false)
     }
     const getImageFileObject = (imageFile: any) => {

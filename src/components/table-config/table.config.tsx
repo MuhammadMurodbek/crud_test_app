@@ -7,6 +7,7 @@ import {
 } from './table.config.style'
 import { Button, Select, Input } from 'antd'
 import { useFilter } from '../../service/pagin.store/pagin'
+import { PlusCircleOutlined, RedoOutlined } from '@ant-design/icons'
 
 export const TableConfig = ({ categories, refetchProducts }: any) => {
     const { Search } = Input
@@ -27,14 +28,17 @@ export const TableConfig = ({ categories, refetchProducts }: any) => {
                         })
                     }}
                 >
-                    refresh
+                    <RedoOutlined /> refresh
                 </Button>
                 <Search
                     placeholder="input search text"
                     onSearch={onSearch}
                     enterButton
                 />
-                <Button onClick={() => setAddModal(true)}>Add</Button>
+                <Button onClick={() => setAddModal(true)}>
+                    {' '}
+                    <PlusCircleOutlined /> Add
+                </Button>
                 <Select
                     defaultValue={{ value: 'all', label: 'All' }}
                     style={{ width: 150 }}
