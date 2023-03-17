@@ -8,11 +8,7 @@ import {
 import { Button, Select, Input } from 'antd'
 import { useFilter } from '../../service/pagin.store/pagin'
 
-export const TableConfig = ({
-    categories,
-    refetchCategories,
-    refetchProducts,
-}: any) => {
+export const TableConfig = ({ categories, refetchProducts }: any) => {
     const { Search } = Input
     const { filter, setFilter } = useFilter()
     const [addModal, setAddModal] = useState<boolean>(false)

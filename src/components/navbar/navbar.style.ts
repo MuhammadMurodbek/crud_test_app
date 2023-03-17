@@ -18,3 +18,7 @@ export const FlexWrap = styled.div`
     align-items: center;
     justify-content: space-between;
 `
+export const LogoWrap = styled.div`
+    display: flex;
+    align-items: center;
+`

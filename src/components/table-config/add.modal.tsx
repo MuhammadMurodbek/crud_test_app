@@ -9,7 +9,7 @@ import {
     putProducts,
 } from '../../service/queries/api.add.products'
 import { getProductsById } from '../../service/queries/api.get.products'
-import { UploadOutlined } from '@ant-design/icons'
+import { ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons'
 import { ErrorField, FlexButtons, ModalForm } from './modal.style'
 import TextArea from 'antd/es/input/TextArea'
 
@@ -21,6 +21,11 @@ type TModalProps = {
     setAddModal: React.Dispatch<React.SetStateAction<boolean>>
     categories: any[]
 }
+interface IApiError {
+    message: string
+    description: string
+    statusCode: string | number
+}
 
 export const ModalAddProduct: React.FC<TModalProps> = ({
     refetch,
@@ -30,6 +35,7 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
     setAddModal,
     categories,
 }) => {
+    const [modal, contextHolder] = Modal.useModal()
     const [imageUrl, setImageUrl] = useState<{
         image: string
         edited: boolean
@@ -38,6 +44,15 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
         onSuccess: () => {
             refetch()
             handleCancel()
+        },
+        onError: (err: IApiError) => {
+            modal.confirm({
+                title: 'Something went wrong.',
+                icon: <ExclamationCircleOutlined />,
+                content: `Could not add product, Message:${err?.message}`,
+                okText: 'Ok',
+                cancelText: 'Cancel',
+            })
         },
     })
     const { mutateAsync: updateAsync, isLoading: isLoadingUpdate } =
@@ -56,6 +71,15 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
                 setImageUrl({
                     ...imageUrl,
                     image: res?.data?.at(0)?.imageSrc,
+                })
+            },
+            onError: (err: IApiError) => {
+                modal.confirm({
+                    title: 'Something went wrong.',
+                    icon: <ExclamationCircleOutlined />,
+                    content: `Could not update product, Message:${err?.message}`,
+                    okText: 'Ok',
+                    cancelText: 'Cancel',
                 })
             },
             enabled: !!id,
@@ -235,6 +259,7 @@ export const ModalAddProduct: React.FC<TModalProps> = ({
                         </Button>
                     </FlexButtons>
                 </ModalForm>
+                {contextHolder}
             </Modal>
         </>
     )
