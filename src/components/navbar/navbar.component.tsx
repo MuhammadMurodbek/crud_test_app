@@ -1,27 +1,22 @@
 import { GithubOutlined, LinkedinOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
-import { FlexWrap, LogoWrap, NavbarComponent } from './navbar.style'
+import { FlexWrap, LogoWrap, NavbarComponent, IconStyle } from './navbar.style'
 
 export const Navbar = () => {
     return (
         <NavbarComponent>
             <FlexWrap>
                 <LogoWrap>
-                    <LinkedinOutlined
-                        style={{
-                            color: '#1677ff',
-                            fontSize: '22px',
-                            marginRight: 10,
-                        }}
-                    />
+                    <LinkedinOutlined style={IconStyle.linkedin} />
                     Candidate testing project
                 </LogoWrap>
-                <Button>
-                    <GithubOutlined
-                        style={{
-                            fontSize: '20px',
-                        }}
-                    />
+                <Button
+                    onClick={() =>
+                        (window.location.href =
+                            'https://github.com/MuhammadMurodbek/murod_candidate_test.git')
+                    }
+                >
+                    <GithubOutlined style={IconStyle.github} />
                 </Button>
             </FlexWrap>
         </NavbarComponent>

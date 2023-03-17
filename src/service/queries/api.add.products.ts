@@ -1,7 +1,7 @@
 import axios from 'axios'
-
+const baseUrl = import.meta.env.VITE_SERVER_URL
 export const addProducts = (payload: any) =>
-    axios.post('http://localhost:2288/products', payload)
+    axios.post(`${baseUrl}/products`, payload)
 
 export const putProducts = (payload: any) =>
-    axios.put(`http://localhost:2288/products/${payload.id}`, payload)
+    axios.put(`${baseUrl}/products/${payload.id}`, payload)

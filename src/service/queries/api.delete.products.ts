@@ -1,4 +1,4 @@
 import axios from 'axios'
-
+const baseUrl = import.meta.env.VITE_SERVER_URL
 export const deleteProduct = (id: number) =>
-    axios.delete(`http://localhost:2288/products/${id}`)
+    axios.delete(`${baseUrl}/products/${id}`)

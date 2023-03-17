@@ -22,3 +22,13 @@ export const LogoWrap = styled.div`
     display: flex;
     align-items: center;
 `
+export const IconStyle = {
+    linkedin: {
+        color: '#1677ff',
+        fontSize: '22px',
+        marginRight: 10,
+    },
+    github: {
+        fontSize: 20,
+    },
+}

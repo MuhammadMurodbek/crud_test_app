@@ -100,7 +100,6 @@ export const TableData = ({
                     >
                         <DeleteOutlined style={{ color: '#eb2f96' }} />
                     </Button>
-                    {contextHolder}
                 </Space>
             ),
         },
@@ -135,6 +134,7 @@ export const TableData = ({
                 addModal={addModal}
                 setAddModal={setAddModal}
             />
+            {contextHolder}
         </>
     )
 }

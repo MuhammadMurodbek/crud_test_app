@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+const baseUrl = import.meta.env.VITE_SERVER_URL
 export const getProducts = ({ _limit, _page, category, name_like }: any) => {
     let params = {
         category: category,
@@ -7,9 +7,9 @@ export const getProducts = ({ _limit, _page, category, name_like }: any) => {
         _page,
         _limit,
     }
-    return axios.get('http://localhost:2288/products', { params: params })
+    return axios.get(`${baseUrl}/products`, { params: params })
 }
 export const getProductsById = (id: number | undefined) =>
-    axios.get('http://localhost:2288/products?id=' + id)
+    axios.get(`${baseUrl}/products?id=` + id)
 
-export const getCategories = () => axios.get('http://localhost:2288/categories')
+export const getCategories = () => axios.get(`${baseUrl}/categories`)
