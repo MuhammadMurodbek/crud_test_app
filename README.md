@@ -7,8 +7,6 @@ Candidate testing project
 
 An application used to create/update/delete products data form JSON SERVER based on user preference, built with React, TypeScript, React-queries, Hook forms and styled-components.
 `Zustand` is used to store data as a global state management which is the latest one. It's used Ant desing to create user interface which is the awesome UI library for React. 
-## Project Status
-(only necessary if incomplete)
 
 #### Example:
 
@@ -35,7 +33,8 @@ Installation:
 
 To Start Server:
 
-`yarn dev:server`  
+`yarn dev:server` 
+
 `http://localhost:2288`  
 
 To Start Front:
